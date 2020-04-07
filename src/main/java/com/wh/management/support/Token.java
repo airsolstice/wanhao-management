@@ -6,16 +6,11 @@ import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.wh.management.bean.User;
-import com.wh.management.support.utils.CtxUtil;
 import com.wh.management.support.utils.ObjectUtil;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -23,33 +18,43 @@ import java.util.stream.Collectors;
 public class Token {
 
     private static final String SECRET = "secret";
-    private static final String JWT_ISSUER = "jwt.issuer";
-    private static final String JWT_ISSUER_DEFAULT = "auth0";
+    private static final String ISSUER = "auth0";
 
-    public static void main(String[] args) {
-        String token = Token.build(new User().setId(1).setName("admin"));
-        System.out.println(token);
-        Token.verify(token, User.class);
+    @Data
+    @AllArgsConstructor
+    private static class Entry{
+        private String key;
+        private Object val;
     }
 
-    public static <R> R verify(String token, Class<R> clazz) throws JWTVerificationException {
-        Algorithm algorithm = Algorithm.HMAC256(SECRET);
+
+    public static <R> R verify(String token,  Class<R> clazz) throws JWTVerificationException {
+        return verify(token, SECRET, ISSUER, clazz);
+    }
+
+    public static <R> R verify(String token, String secret, String issuer, Class<R> clazz) throws JWTVerificationException {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         JWTVerifier verifier = JWT.require(algorithm)
-                .withIssuer(JWT_ISSUER_DEFAULT)
+                .withIssuer(issuer)
                 .build();
         Map<String, Object> properties = verifier.verify(token)
                 .getClaims().entrySet()
-                .stream().map((set) -> {
-                    return set;
-                }).collect(Collectors.toMap());
+                .stream()
+                .map((set) -> new Entry(set.getKey(), set.getValue().as(Object.class)))
+                .collect(Collectors.toMap(Entry::getKey, Entry::getVal));
+
         return JSON.parseObject(JSON.toJSONString(properties), clazz);
     }
 
     public static String build(Object obj) {
-        Algorithm algorithm = Algorithm.HMAC256(SECRET);
+        return build(obj, SECRET, ISSUER);
+    }
+
+    public static String build(Object obj, String secret, String issuer) {
+        Algorithm algorithm = Algorithm.HMAC256(secret);
         Map<String, Object> properties = ObjectUtil.obj2Map(obj);
         JWTCreator.Builder builder = JWT.create()
-                .withIssuer(JWT_ISSUER_DEFAULT);
+                .withIssuer(issuer);
 
         if(properties.size() == 0){
             return "";
