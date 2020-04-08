@@ -1,13 +1,13 @@
 import React, { Component }from 'react';
 import { NavLink } from 'react-router-dom';
-import { NavWorkbook } from 'store/nav_workbook';
+import { NavInfoConstant } from 'store/constant_info';
 import './index.less';
 
-class NavWorkbook extends Component {
+class NavInfo extends Component {
     render() {
         return (
-            <ul className="navShow">
-                    {NavWorkbook.map(i => {
+            <ul className="NavInfo">
+                    {NavInfoConstant.map(i => {
                         return (
                             <li key={i.key} className="navShowList">
                                 <NavLink to={`${this.props.match.url}/${i.to}`} activeClassName="navSelected"><span className="navLabel">{i.title}</span></NavLink>
@@ -20,4 +20,4 @@ class NavWorkbook extends Component {
 }
 
 
-export default NavWorkbook;
+export default NavInfo;

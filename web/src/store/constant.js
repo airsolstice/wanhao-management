@@ -5,7 +5,7 @@ export const nav = [{
     icon: 'home'
 },{
     key: 'workbook-tab',
-    title: '费用管理',
+    title: '工作管理',
     to: 'workbook',
     icon: 'edit'
 },{

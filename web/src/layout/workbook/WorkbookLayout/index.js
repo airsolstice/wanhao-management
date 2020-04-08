@@ -4,7 +4,7 @@ import './index.less';
 import Nav from 'components/nav';
 import OptNav from 'components/rightOptNav';
 import NavWorkbook from 'components/workbook/NavWorkbook';
-import { NavInfo } from 'store/constant_info';
+import { NavWorkbookConstant } from 'store/constant_workbook';
 import routes from 'router';
 console.log(routes)
 class WorkbookLayout extends Component {
@@ -17,7 +17,6 @@ class WorkbookLayout extends Component {
                         <Nav />
                         <OptNav history={this.props.history} path={this.props.match.path} />
                     </div>
-                    
                 </header>
                 <div className="container">
                     <section className="leftSide">
@@ -27,7 +26,7 @@ class WorkbookLayout extends Component {
                     <section className="rightContainer">
                     <Switch>
                         <Redirect from={`${this.props.match.url}`} exact to={`${this.props.match.url}/workbook`}></Redirect>
-                        {NavInfo.map(i => {
+                        {NavWorkbookConstant.map(i => {
                             return (
                                 <Route path={`${this.props.match.url}/${i.to}`}  exact key={i.key} component={routes[i.key]} />
                             )

@@ -1,4 +1,4 @@
-export const NavInfo = [{
+export const NavInfoConstant = [{
     key: 'hotel-info',
     title: '酒店信息',
     to: 'hotel',
