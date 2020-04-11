@@ -26,18 +26,16 @@ class InfoLayout extends Component {
                     </section>
                     <section className="rightContainer">
                     <Switch>
-                        <Redirect from={`${this.props.match.url}`} exact to={`${this.props.match.url}/workbook`}></Redirect>
+                        <Redirect from={`${this.props.match.url}`} exact to={`${this.props.match.url}/hotel`}></Redirect>
                         {NavInfoConstant.map(i => {
                             return (
                                 <Route path={`${this.props.match.url}/${i.to}`}  exact key={i.key} component={routes[i.key]} />
                             )
                         })}
                     </Switch>
-
-                <div>
-                        asdasdasd
-
-                </div>
+                    <div>
+                        
+                    </div>
                     </section>
                 </div>
             </div>

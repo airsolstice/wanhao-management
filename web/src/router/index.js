@@ -11,7 +11,12 @@ const loadComponent = (loader,loading = PageLoading) =>{
 const ShowSubOne = loadComponent( () => import('views/workbook/one/index.js'))
 const ShowSubTwo= loadComponent( () => import('views/workbook/two/index.js'))
 
+const Hotel = loadComponent( () => import('views/info/hotel'))
+const Employee = loadComponent( () => import('views/info/employee'))
+const Thing = loadComponent( () => import('views/info/thing'))
 export default{
     ShowSubOne,
-    ShowSubTwo
+    Employee,
+    Hotel,
+    Thing
 }
