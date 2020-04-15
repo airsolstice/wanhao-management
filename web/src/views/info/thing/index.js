@@ -32,16 +32,16 @@ class Thing extends Component {
             loading: false,
             dataSource: [
                 {
-                    key: '1',
-                    name: '胡彦斌',
-                    age: 32,
-                    address: '西湖区湖底公园1号',
+                    id: '1',
+                    name: '枕套',
+                    price: '$39.9',
+                    unit: '件',
                 },
                 {
                     key: '2',
-                    name: '胡彦祖',
-                    age: 42,
-                    address: '西湖区湖底公园1号',
+                    name: '毛巾',
+                    price: '$19.9',
+                    unit: '条',
                 },
             ]
         })
@@ -98,33 +98,48 @@ const getColums = (sortedInfo,actions) => {
     return (
         [
             {
-                title: '姓名',
+                title: '序号',
+                dataIndex: 'id',
+                key: 'id',
+            },
+            {
+                title: '名称',
                 dataIndex: 'name',
                 key: 'name',
                 sorter: true,
                 sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
             },
             {
-                title: '年龄',
-                dataIndex: 'age',
-                key: 'age',
+                title: '单价',
+                dataIndex: 'price',
+                key: 'price',
                 sorter: true,
-                sortOrder: sortedInfo.columnKey === 'age' && sortedInfo.order,
+                sortOrder: sortedInfo.columnKey === 'price' && sortedInfo.order,
             },
             {
-                title: '住址',
-                dataIndex: 'address',
-                key: 'address',
+                title: '单位',
+                dataIndex: 'unit',
+                key: 'unit',
             },
             {
                 title: '操作',
                 render: (record, text) => {
                     return (
-                        <div className="optIcon">
+                        <div >
+                            <Tooltip title='删除' >
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
+                            </Tooltip>
                             <Tooltip title='编辑' >
-                                <Icon type="edit" onClick={() => actions.toEdit(record)} />
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
+                            </Tooltip>
+                            <Tooltip title='查看' >
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
+                            </Tooltip>
+                            <Tooltip title='新增' >
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
                             </Tooltip>
                         </div>
+                        
                     )
                 }
             }

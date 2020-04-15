@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-class ShowSubOne extends Component{
+class Charge extends Component{
     render(){
         return(
             <div className="showSubOne">
@@ -8,4 +8,4 @@ class ShowSubOne extends Component{
         )
     }
 }
-export default ShowSubOne;
+export default Charge;

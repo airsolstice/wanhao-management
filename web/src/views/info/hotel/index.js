@@ -173,8 +173,6 @@ const getColums = (sortedInfo,actions) => {
                 title: '序号',
                 dataIndex: 'id',
                 key: 'id',
-                sorter: true,
-                sortOrder: sortedInfo.columnKey === 'id' && sortedInfo.order,
             },
             {
                 title: '酒店名称',
@@ -202,14 +200,19 @@ const getColums = (sortedInfo,actions) => {
                 title: '操作',
                 render: (record, text) => {
                     return (
-                        <div className="optIcon">
+                        <div >
                             <Tooltip title='删除' >
                                 <Icon type="close" onClick={() => actions.toEdit(record)} />
                             </Tooltip>
                             <Tooltip title='编辑' >
-                                <Icon type="view" onClick={() => actions.toEdit(record)} />
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
                             </Tooltip>
-
+                            <Tooltip title='查看' >
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
+                            </Tooltip>
+                            <Tooltip title='新增' >
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
+                            </Tooltip>
                         </div>
                         
                     )

@@ -32,17 +32,51 @@ class Employee extends Component {
             loading: false,
             dataSource: [
                 {
-                    key: '1',
+                    id: '1',
+                    userId: "wh10000",
                     name: '胡彦斌',
-                    age: 32,
-                    address: '西湖区湖底公园1号',
+                    idCard: '520000',
+                    start: '2020-04-10',
+                    status: '在职',
+                    salary: '¥2000.00',
                 },
                 {
-                    key: '2',
-                    name: '胡彦祖',
-                    age: 42,
-                    address: '西湖区湖底公园1号',
+                    id: '2',
+                    userId: "wh10000",
+                    name: '胡彦斌',
+                    idCard: '51000000000000000',
+                    start: '2020-04-10',
+                    status: '在职',
+                    salary: '¥2000.00',
                 },
+                {
+                    id: '3',
+                    userId: "wh10000",
+                    name: '胡彦斌',
+                    idCard: '51000000000000000',
+                    start: '2020-04-10',
+                    status: '在职',
+                    salary: '¥2000.00',
+                },
+                {
+                    id: '4',
+                    userId: "wh10000",
+                    name: '胡彦斌',
+                    idCard: '51000000000000000',
+                    start: '2020-04-10',
+                    status: '在职',
+                    salary: '¥2000.00',
+                },
+                {
+                    id: '5',
+                    userId: "wh10000",
+                    name: '胡彦斌',
+                    idCard: '51000000000000000',
+                    start: '2020-04-10',
+                    status: '在职',
+                    salary: '¥2000.00',
+                },
+
             ]
         })
     }
@@ -98,6 +132,18 @@ const getColums = (sortedInfo,actions) => {
     return (
         [
             {
+                title: '序号',
+                dataIndex: 'id',
+                key: 'id',
+            },
+            {
+                title: '账号',
+                dataIndex: 'userId',
+                key: 'userId',
+                sorter: true,
+                sortOrder: sortedInfo.columnKey === 'userId' && sortedInfo.order,
+            },
+            {
                 title: '姓名',
                 dataIndex: 'name',
                 key: 'name',
@@ -105,26 +151,44 @@ const getColums = (sortedInfo,actions) => {
                 sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
             },
             {
-                title: '年龄',
-                dataIndex: 'age',
-                key: 'age',
-                sorter: true,
-                sortOrder: sortedInfo.columnKey === 'age' && sortedInfo.order,
+                title: '身份证',
+                dataIndex: 'idCard',
+                key: 'idCard',
             },
             {
-                title: '住址',
-                dataIndex: 'address',
-                key: 'address',
+                title: '入职时间',
+                dataIndex: 'start',
+                key: 'start',
+            },
+            {
+                title: '状态',
+                dataIndex: 'status',
+                key: 'status',
+            },
+            {
+                title: '工资',
+                dataIndex: 'salary',
+                key: 'salary',
             },
             {
                 title: '操作',
                 render: (record, text) => {
                     return (
-                        <div className="optIcon">
+                        <div >
+                            <Tooltip title='删除' >
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
+                            </Tooltip>
                             <Tooltip title='编辑' >
-                                <Icon type="edit" onClick={() => actions.toEdit(record)} />
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
+                            </Tooltip>
+                            <Tooltip title='查看' >
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
+                            </Tooltip>
+                            <Tooltip title='新增' >
+                                <Icon type="close" onClick={() => actions.toEdit(record)} />
                             </Tooltip>
                         </div>
+                        
                     )
                 }
             }

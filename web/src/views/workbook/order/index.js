@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-class ShowSubTwo extends Component{
+class Order extends Component{
     render(){
         return(
             <div className="showSubTwo">
@@ -8,4 +8,4 @@ class ShowSubTwo extends Component{
         )
     }
 }
-export default ShowSubTwo;
+export default Order;
