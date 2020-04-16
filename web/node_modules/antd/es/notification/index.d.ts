@@ -7,6 +7,7 @@ export interface ConfigProps {
     duration?: number;
     placement?: NotificationPlacement;
     getContainer?: () => HTMLElement;
+    closeIcon?: React.ReactNode;
 }
 export interface ArgsProps {
     message: React.ReactNode;
@@ -25,17 +26,21 @@ export interface ArgsProps {
     top?: number;
     bottom?: number;
     getContainer?: () => HTMLElement;
+    closeIcon?: React.ReactNode;
 }
-export interface NotificationApi {
+export interface NotificationInstance {
     success(args: ArgsProps): void;
     error(args: ArgsProps): void;
     info(args: ArgsProps): void;
-    warn(args: ArgsProps): void;
     warning(args: ArgsProps): void;
     open(args: ArgsProps): void;
+}
+export interface NotificationApi extends NotificationInstance {
+    warn(args: ArgsProps): void;
     close(key: string): void;
     config(options: ConfigProps): void;
     destroy(): void;
+    useNotification: () => [NotificationInstance, React.ReactElement];
 }
 declare const _default: NotificationApi;
 export default _default;

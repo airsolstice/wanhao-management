@@ -156,6 +156,11 @@
       color: @text-color-secondary;
       pointer-events: none;
     }
+
+    // Fix Editable Textarea flash in Firefox
+    textarea {
+      -moz-transition: none;
+    }
   }
 
   // list
@@ -170,15 +175,15 @@
     }
   }
 
-  ul li {
+  ul {
     list-style-type: circle;
 
-    li {
+    ul {
       list-style-type: disc;
     }
   }
 
-  ol li {
+  ol {
     list-style-type: decimal;
   }
 
@@ -187,6 +192,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    // https://blog.csdn.net/iefreer/article/details/50421025
+    span& {
+      vertical-align: bottom;
+    }
   }
 
   &-ellipsis-multiple-line {
@@ -197,3 +207,5 @@
     overflow: hidden;
   }
 }
+
+@import './rtl';

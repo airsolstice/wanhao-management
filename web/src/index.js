@@ -18,7 +18,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import './assets/style/antd.less';
 import './assets/style/common.less';
-
+import './assets/style/viewsCommon.less';
 moment.locale('zh-cn');
 
 ReactDOM.render(

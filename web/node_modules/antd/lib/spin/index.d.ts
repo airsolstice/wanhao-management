@@ -1,8 +1,7 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import { ConfigConsumerProps } from '../config-provider';
 declare const SpinSizes: ["small", "default", "large"];
-export declare type SpinSize = (typeof SpinSizes)[number];
+export declare type SpinSize = typeof SpinSizes[number];
 export declare type SpinIndicator = React.ReactElement<HTMLElement>;
 export interface SpinProps {
     prefixCls?: string;
@@ -22,16 +21,8 @@ export interface SpinState {
 declare class Spin extends React.Component<SpinProps, SpinState> {
     static defaultProps: {
         spinning: boolean;
-        size: "small" | "default" | "large";
+        size: "small" | "large" | "default";
         wrapperClassName: string;
-    };
-    static propTypes: {
-        prefixCls: PropTypes.Requireable<string>;
-        className: PropTypes.Requireable<string>;
-        spinning: PropTypes.Requireable<boolean>;
-        size: PropTypes.Requireable<"small" | "default" | "large">;
-        wrapperClassName: PropTypes.Requireable<string>;
-        indicator: PropTypes.Requireable<PropTypes.ReactElementLike>;
     };
     static setDefaultIndicator(indicator: React.ReactNode): void;
     originalUpdateSpinning: () => void;
@@ -43,7 +34,7 @@ declare class Spin extends React.Component<SpinProps, SpinState> {
     updateSpinning: () => void;
     cancelExistingSpin(): void;
     isNestedPattern(): boolean;
-    renderSpin: ({ getPrefixCls }: ConfigConsumerProps) => JSX.Element;
+    renderSpin: ({ getPrefixCls, direction }: ConfigConsumerProps) => JSX.Element;
     render(): JSX.Element;
 }
 export default Spin;

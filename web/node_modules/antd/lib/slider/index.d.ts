@@ -14,11 +14,16 @@ interface HandleGeneratorInfo {
     index: number;
     rest: any[];
 }
-export declare type HandleGeneratorFn = (tooltipPrefixCls: string, info: HandleGeneratorInfo) => React.ReactNode;
+export declare type HandleGeneratorFn = (config: {
+    tooltipPrefixCls?: string;
+    prefixCls?: string;
+    info: HandleGeneratorInfo;
+}) => React.ReactNode;
 export interface SliderProps {
     prefixCls?: string;
     tooltipPrefixCls?: string;
     range?: boolean;
+    reverse?: boolean;
     min?: number;
     max?: number;
     step?: number | null;
@@ -55,7 +60,7 @@ export default class Slider extends React.Component<SliderProps, SliderState> {
     saveSlider: (node: any) => void;
     focus(): void;
     blur(): void;
-    renderSlider: ({ getPrefixCls }: ConfigConsumerProps) => JSX.Element;
+    renderSlider: ({ getPrefixCls, direction }: ConfigConsumerProps) => JSX.Element;
     render(): JSX.Element;
 }
 export {};

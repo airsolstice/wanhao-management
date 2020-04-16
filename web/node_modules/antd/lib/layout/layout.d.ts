@@ -3,6 +3,7 @@ import { SiderProps } from './Sider';
 export interface GeneratorProps {
     suffixCls: string;
     tagName: 'header' | 'footer' | 'main' | 'section';
+    displayName: string;
 }
 export interface BasicProps extends React.HTMLAttributes<HTMLDivElement> {
     prefixCls?: string;
@@ -14,7 +15,7 @@ export interface LayoutContextProps {
         removeSider: (id: string) => void;
     };
 }
-export declare const LayoutContext: import("@ant-design/create-react-context").Context<LayoutContextProps>;
+export declare const LayoutContext: React.Context<LayoutContextProps>;
 declare const Layout: React.ComponentClass<BasicProps> & {
     Header: React.ComponentClass<BasicProps>;
     Footer: React.ComponentClass<BasicProps>;
