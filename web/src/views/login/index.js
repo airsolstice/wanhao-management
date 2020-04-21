@@ -1,64 +1,49 @@
-import React, { Component } from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import React from 'react';
+import { Form, Input, Button } from 'antd';
 import './index.less';
-function hasErrors(fieldsError) {
-    return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
+const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+};
 
-class LoginForm extends Component {
-    componentDidMount() {
-        // To disabled submit button at the beginning.
-        this.props.form.validateFields();
-    }
-
-    handleSubmit = e => {
-        let _userInfo = {
-            name: 'zhangsan',
-            role: 'admin'
-        }
-        window.localStorage.setItem('userInfo', JSON.stringify(_userInfo))
-        window.localStorage.setItem('token', 'thisistoken')
-        this.props.history.push('/home')
+function Login(props){
+    const onFinish = values => {
+        window.localStorage.setItem('userInfo',JSON.stringify(values))
+        props.history.push('/home')
     };
-
-    render() {
-        const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-
-        // Only show error after a field is touched.
-        const usernameError = isFieldTouched('username') && getFieldError('username');
-        const passwordError = isFieldTouched('password') && getFieldError('password');
-        return (
-            <Form layout="inline" className="loginPage" onSubmit={this.handleSubmit}>
-                <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
-                    {getFieldDecorator('username', {
-                        rules: [{ required: true, message: 'Please input your username!' }],
-                    })(
-                        <Input
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="Username"
-                        />,
-                    )}
-                </Form.Item>
-                <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
-                    {getFieldDecorator('password', {
-                        rules: [{ required: true, message: 'Please input your Password!' }],
-                    })(
-                        <Input
-                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            type="password"
-                            placeholder="Password"
-                        />,
-                    )}
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>
-                        Log in
-                    </Button>
-                </Form.Item>
-            </Form>
-        );
-    }
-}
-
-const Login = Form.create({ name: 'horizontal_login' })(LoginForm);
+    const onFinishFailed = errorInfo => {
+        console.log('Failed:', errorInfo);
+    };
+    return (
+        <div>
+            <Form
+            className="loginPage"
+            layout="inline"
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+        >
+            <Form.Item
+                label="用户名"
+                name="username"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label="密码"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+                <Input.Password />
+            </Form.Item>
+            <Form.Item {...tailLayout}>
+                <Button type="primary" htmlType="submit">
+                    登录
+                </Button>
+            </Form.Item>
+        </Form>
+        </div>
+    );
+};
 export default Login;

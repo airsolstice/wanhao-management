@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Table, Popconfirm, Tooltip, message, Input, Progress } from "antd";
+import {
+  Table,
+  Popconfirm,
+  Tooltip,
+  message,
+  Input,
+  Progress,
+  Button,
+  Form,
+} from "antd";
 import {
   SearchOutlined,
   DeleteOutlined,
@@ -8,7 +17,9 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import "./index.less";
+import "../index.less";
 import api from "api";
+import NewDialog from "../comps/newDiaglog";
 const { Search } = Input;
 const Hotel = (props) => {
   const pageRef = useRef({
@@ -25,6 +36,9 @@ const Hotel = (props) => {
   const [loading, setLoading] = useState({});
   const [keyword, setKeyword] = useState();
   const [downloading, setDownloading] = useState(false);
+  const [toShow, setToShow] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [editData, setEditData] = useState({});
   const sortDic = {
     descend: "desc",
     ascend: "asc",
@@ -78,12 +92,7 @@ const Hotel = (props) => {
     //     setLoading(false);
     //   });
   };
-  const toDownload = (data) => {
-    setDownloading(true);
-    console.log("下载");
-  };
   const handleTableChange = async ({ current, pageSize }, b, sortedInfo) => {
-    // console.log(current, pageSize, sortedInfo)
     if (current && pageSize) {
       pageRef.current = {
         ...pageRef.current,
@@ -106,13 +115,23 @@ const Hotel = (props) => {
       current: 1,
     };
   };
-  const toEdit = (data) => {};
-
-  const toCreate = (data) => {};
+  const toEdit = (data) => {
+    setEdit(true);
+    setToShow(true);
+    setEditData(data);
+  };
+  const toClose = () => {
+    setEdit(false);
+    setToShow(false);
+    setEditData({});
+  };
   const toDelete = (data) => {};
+  const handleSubmit = (data) => {
+    console.log("-----提交的数据", data);
+    toClose();
+  };
   const columns = getColumns(sortRef.current, downloading, {
     toEdit: toEdit,
-    toCreate: toCreate,
     toDelete: toDelete,
   });
   const customPagination = {
@@ -125,12 +144,36 @@ const Hotel = (props) => {
     showSizeChanger: true,
     onShowSizeChange: handleTableChange,
   };
+  const form = () => {
+    return (
+      <>
+        <Form.Item name="name" label="酒店名称" rules={[{ required: true ,message:"酒店名称必填"}]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="addr" label="酒店地址" rules={[{ required: true ,message:"酒店地址必填"}]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name="tel" label="联系方式" rules={[{ required: true,message:"酒店联系方式必填" }]}>
+          <Input />
+        </Form.Item>
+      </>
+    );
+  };
   return (
     <section className="HotelBox">
       <div className="pageContent">
         <div className="title">
           <span className="tit">酒店列表</span>
           <div className="searchBox">
+            <Button
+              className="addBtn"
+              type="primary"
+              size="small"
+              icon={<PlusOutlined />}
+              onClick={() => setToShow(true)}
+            >
+              新增
+            </Button>
             <Search
               size="small"
               placeholder="请输入搜索关键字"
@@ -151,6 +194,19 @@ const Hotel = (props) => {
             rowKey={(record, index) => record.id}
           ></Table>
         </div>
+        {toShow ? (
+          <NewDialog
+            type="酒店"
+            edit={edit}
+            editData={editData}
+            visible={toShow}
+            toClose={toClose}
+            render={form}
+            submit={handleSubmit}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </section>
   );
@@ -196,6 +252,9 @@ const getColumns = (sortedInfo, downloading, actions) => {
       render: (record, text, index) => {
         return (
           <div className="optIconGroup">
+            <Tooltip title="编辑">
+              <EditOutlined onClick={() => actions.toEdit(record)} />
+            </Tooltip>
             <Popconfirm
               placement="left"
               title={`请确认是否删除 ${record.name}`}
@@ -205,15 +264,6 @@ const getColumns = (sortedInfo, downloading, actions) => {
                 <DeleteOutlined />
               </Tooltip>
             </Popconfirm>
-            <Tooltip title="编辑">
-              <EditOutlined onClick={() => actions.toEdit(record)} />
-            </Tooltip>
-            {/* <Tooltip title="查看">
-              <EyeOutlined onClick={() => actions.toEdit(record)} />
-            </Tooltip> */}
-            <Tooltip title="新增">
-              <PlusOutlined onClick={() => actions.toCreate(record)} />
-            </Tooltip>
           </div>
         );
       },

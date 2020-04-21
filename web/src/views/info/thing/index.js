@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Table, Popconfirm, Tooltip, message, Input, Progress } from "antd";
+import {
+  Table,
+  Popconfirm,
+  Tooltip,
+  message,
+  Input,
+  Progress,
+  Form,
+  Button,
+} from "antd";
 import {
   SearchOutlined,
   DeleteOutlined,
@@ -8,6 +17,8 @@ import {
   PlusOutlined,
 } from "@ant-design/icons";
 import "./index.less";
+import "../index.less";
+import NewDialog from "../comps/newDiaglog";
 import api from "api";
 const { Search } = Input;
 const Thing = (props) => {
@@ -24,7 +35,9 @@ const Thing = (props) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState({});
   const [keyword, setKeyword] = useState();
-  const [downloading, setDownloading] = useState(false);
+  const [toShow, setToShow] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [editData, setEditData] = useState({});
   const sortDic = {
     descend: "desc",
     ascend: "asc",
@@ -37,13 +50,13 @@ const Thing = (props) => {
       {
         id: "1",
         name: "枕套",
-        price: "$39.9",
+        price: "39.9",
         unit: "件",
       },
       {
         key: "2",
         name: "毛巾",
-        price: "$19.9",
+        price: "19.9",
         unit: "条",
       },
     ];
@@ -69,10 +82,6 @@ const Thing = (props) => {
     //     setLoading(false);
     //   });
   };
-  const toDownload = (data) => {
-    setDownloading(true);
-    console.log("下载");
-  };
   const handleTableChange = async ({ current, pageSize }, b, sortedInfo) => {
     // console.log(current, pageSize, sortedInfo)
     if (current && pageSize) {
@@ -97,13 +106,23 @@ const Thing = (props) => {
       current: 1,
     };
   };
-  const toEdit = (data) => {};
-
-  const toCreate = (data) => {};
+  const toEdit = (data) => {
+    setEdit(true);
+    setToShow(true);
+    setEditData(data);
+  };
+  const toClose = () => {
+    setEdit(false);
+    setToShow(false);
+    setEditData({});
+  };
   const toDelete = (data) => {};
-  const columns = getColumns(sortRef.current, downloading, {
+  const handleSubmit = (data) => {
+    console.log("-----提交的数据", data);
+    toClose();
+  };
+  const columns = getColumns(sortRef.current, {
     toEdit: toEdit,
-    toCreate: toCreate,
     toDelete: toDelete,
   });
   const customPagination = {
@@ -116,12 +135,48 @@ const Thing = (props) => {
     showSizeChanger: true,
     onShowSizeChange: handleTableChange,
   };
+  const form = () => {
+    return (
+      <>
+        <Form.Item
+          name="name"
+          label="物件名称"
+          rules={[{ required: true, message: "物件名称" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="unit"
+          label="物件单位"
+          rules={[{ required: true, message: "物件单位" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="price"
+          label="物件单价"
+          rules={[{ required: true, message: "物件单价" }]}
+        >
+          <Input prefix="￥" suffix="RMB" />
+        </Form.Item>
+      </>
+    );
+  };
   return (
     <section className="thingBox">
       <div className="pageContent">
         <div className="title">
           <span className="tit">物件列表</span>
           <div className="searchBox">
+            <Button
+              className="addBtn"
+              type="primary"
+              size="small"
+              icon={<PlusOutlined />}
+              onClick={() => setToShow(true)}
+            >
+              新增
+            </Button>
             <Search
               size="small"
               placeholder="请输入搜索关键字"
@@ -142,6 +197,19 @@ const Thing = (props) => {
             rowKey={(record, index) => record.id}
           ></Table>
         </div>
+        {toShow ? (
+          <NewDialog
+            type="物件"
+            edit={edit}
+            editData={editData}
+            visible={toShow}
+            toClose={toClose}
+            render={form}
+            submit={handleSubmit}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </section>
   );
@@ -149,7 +217,7 @@ const Thing = (props) => {
 
 export default React.memo(Thing);
 
-const getColumns = (sortedInfo, downloading, actions) => {
+const getColumns = (sortedInfo, actions) => {
   const sotrDicReverse = {
     desc: "descend",
     asc: "ascend",
@@ -175,6 +243,9 @@ const getColumns = (sortedInfo, downloading, actions) => {
       key: "price",
       sorter: true,
       sortOrder: sortedInfo.columnKey === "price" && sortedInfo.order,
+      render: (text) => {
+        return `¥${text}`;
+      },
     },
     {
       title: "单位",
@@ -186,6 +257,9 @@ const getColumns = (sortedInfo, downloading, actions) => {
       render: (record, text, index) => {
         return (
           <div className="optIconGroup">
+            <Tooltip title="编辑">
+              <EditOutlined onClick={() => actions.toEdit(record)} />
+            </Tooltip>
             <Popconfirm
               placement="left"
               title={`请确认是否删除 ${record.name}`}
@@ -195,15 +269,6 @@ const getColumns = (sortedInfo, downloading, actions) => {
                 <DeleteOutlined />
               </Tooltip>
             </Popconfirm>
-            <Tooltip title="编辑">
-              <EditOutlined onClick={() => actions.toEdit(record)} />
-            </Tooltip>
-            {/* <Tooltip title="查看">
-              <EyeOutlined onClick={() => actions.toEdit(record)} />
-            </Tooltip> */}
-            <Tooltip title="新增">
-              <PlusOutlined onClick={() => actions.toCreate(record)} />
-            </Tooltip>
           </div>
         );
       },

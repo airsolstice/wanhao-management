@@ -5,12 +5,11 @@ class AuthorizedRoute extends Component {
     render() {
         const { component: Component, ...rest } = this.props;
         let _info = window.localStorage.getItem("userInfo")? JSON.parse(window.localStorage.getItem("userInfo")):'';
-        const isLogin = _info && _info.name?true : false;
-        const userRole = _info && _info.role === 'admin'?true: false;
+        const isLogin = _info && _info.username?true : false;
         return (
             <Route {...rest} render={props => {
                 return isLogin
-                    ?( userRole ? <Component {...props} /> : <Redirect to="/notAuth" />)
+                    ? <Component {...props} />
                     : <Redirect to="/login" />
             }} />
         )
