@@ -35,7 +35,6 @@ const Hotel = (props) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState({});
   const [keyword, setKeyword] = useState();
-  const [downloading, setDownloading] = useState(false);
   const [toShow, setToShow] = useState(false);
   const [edit, setEdit] = useState(false);
   const [editData, setEditData] = useState({});
@@ -130,7 +129,7 @@ const Hotel = (props) => {
     console.log("-----提交的数据", data);
     toClose();
   };
-  const columns = getColumns(sortRef.current, downloading, {
+  const columns = getColumns(sortRef.current,  {
     toEdit: toEdit,
     toDelete: toDelete,
   });

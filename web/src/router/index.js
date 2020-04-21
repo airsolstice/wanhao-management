@@ -14,9 +14,14 @@ const loadComponent = (loader,loading = PageLoading) =>{
 const Hotel = loadComponent( () => import('views/info/hotel'))
 const Employee = loadComponent( () => import('views/info/employee'))
 const Thing = loadComponent( () => import('views/info/thing'))
+
+const Charge = loadComponent(() => import('views/workbook/charge'))
+const Order = loadComponent(() => import('views/workbook/order'))
 export default{
     // ShowSubOne,
     Employee,
     Hotel,
-    Thing
+    Thing,
+    Charge,
+    Order
 }

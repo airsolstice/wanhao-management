@@ -1,23 +1,26 @@
-import React, { Component }from 'react';
-import { NavLink } from 'react-router-dom';
-import { NavWorkbookConstant } from 'store/constant_workbook';
-import './index.less';
+import React  from "react";
+import { NavLink } from "react-router-dom";
+import { NavWorkbookConstant } from "store/constant_workbook";
+import "./index.less";
 
-class NavWorkBook extends Component {
-    render() {
+const NavWorkBook = (props) => {
+  return (
+    <ul className="NavWorkBook">
+      {NavWorkbookConstant.map((i) => {
         return (
-            <ul className="navShow">
-                    {NavWorkbookConstant.map(i => {
-                        return (
-                            <li key={i.key} className="navShowList">
-                                <NavLink to={`${this.props.match.url}/${i.to}`} activeClassName="navSelected"><span className="navLabel">{i.title}</span></NavLink>
-                            </li>
-                        )
-                    })}
-            </ul>
-        )
-    }
-}
-
+          <li key={i.key} className="navShowList">
+            <NavLink
+              to={`${props.match.url}/${i.to}`}
+              activeClassName="navSelected"
+            >
+              <i.icon />
+              <span className="navLabel">{i.title}</span>
+            </NavLink>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
 
 export default NavWorkBook;
