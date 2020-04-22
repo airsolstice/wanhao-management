@@ -54,7 +54,7 @@ const Thing = (props) => {
         unit: "件",
       },
       {
-        key: "2",
+        id: "2",
         name: "毛巾",
         price: "19.9",
         unit: "条",
@@ -62,28 +62,8 @@ const Thing = (props) => {
     ];
     setData(_data);
     setLoading(false);
-    // api
-    //   .getStoreServiceList({
-    //     pageNo: pageRef.current.current,
-    //     pageSize: pageRef.current.pageSize,
-    //     orderField: sortRef.current.field,
-    //     orderType: sortRef.current.order,
-    //     serviceName: keyword,
-    //   })
-    //   .then((res) => {
-    //     if (res.data.code === 200) {
-    //       pageRef.current = {
-    //         total: res.data.data.total,
-    //         pageSize: res.data.data.size,
-    //         current: res.data.data.current,
-    //       };
-    //       setData(res.data.data.records);
-    //     }
-    //     setLoading(false);
-    //   });
   };
   const handleTableChange = async ({ current, pageSize }, b, sortedInfo) => {
-    // console.log(current, pageSize, sortedInfo)
     if (current && pageSize) {
       pageRef.current = {
         ...pageRef.current,
@@ -227,8 +207,6 @@ const getColumns = (sortedInfo, actions) => {
       title: "序号",
       dataIndex: "id",
       key: "id",
-      sorter: true,
-      sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order,
     },
     {
       title: "名称",

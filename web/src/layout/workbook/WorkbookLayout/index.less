@@ -1,6 +1,6 @@
 @headerHeight: 60px;
 @logoWidth: 100px;
-@leftWidth: 240px;
+@leftWidth: 200px;
 .WorkbookLayout{
     height: 100vh;
     .header{
@@ -37,14 +37,16 @@
         .leftSide{
             width: @leftWidth;
             height: 100%;
-            padding: 20px;
+            // padding: 20px;
             text-align: left;
             border-right: 1px solid #eee;
             background: #fff;
         }
         .rightContainer{
             width: calc(100% - @leftWidth);
-            height: 100%;
+            margin: 20px;
+            background: #fff;
+            // padding: 20px;
         }
     }
 }
