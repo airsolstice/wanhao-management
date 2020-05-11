@@ -7,7 +7,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
 
 /**
- * @author <a href="mailto:liuhan5@lenovo.com">HanL(liuhan5)</a>
  * @date 2018/12/25 14:00
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

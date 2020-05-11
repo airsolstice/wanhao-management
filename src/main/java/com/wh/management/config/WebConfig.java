@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @author <a href="mailto:liuhan5@lenovo.com">HanL(liuhan5)</a>
  * on 2019-04-03 18:01
  */
 @Configuration
